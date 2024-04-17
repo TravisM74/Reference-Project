@@ -1,0 +1,16 @@
+#navBar{
+    background-color: aqua;
+}
+
+#interactionWindow {
+    background-color: aquamarine;
+}
+#codesWindow {
+    background-color: rgb(215, 171, 255);
+}
+#displayWindow{
+    background-color: rgb(228, 226, 226);
+}
+#referenceWindow{
+    background-color: rgb(248, 159, 159);
+}

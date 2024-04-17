@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+
+        <nav id="navBar">
+            <button id="displayCodesBtn">List Codes</button>
+            <button>References</button>
+            <button id="readFileBtn" onclick="readAFile()" >Read text File</button>
+        </nav>
+    </header>
+    <div id="interactionWindow"></div>
+    <div id="codesWindow">
+        <div id="currentCode"></div>
+        <ul id="codeList"></ul>
+        <div id="codeInputDisplay" style="display:block;">
+            <input id="codeInput" type="text" placeholder="Code..">
+            <input id ="codeDescInput" type="text" placeholder="Desc..">
+            <Button id="codeSubmitBtn">Add Code</Button>
+
+        </div>
+    </div>
+    <div id="referenceWindow"></div>
+    
+    <div id="displayWindow"></div>
+    <footer>
+        <p>Reff App by T.Mouna</p>
+    </footer>
+    <script src="index.js" type="module" ></script>
+</body>
+</html>
