@@ -10,25 +10,41 @@
     <header>
 
         <nav id="navBar">
+            <h1>NavBar</h1>
             <button id="displayCodesBtn">List Codes</button>
-            <button>References</button>
+            <button id="displayReferencesBtn">References</button>
             <button id="readFileBtn" onclick="readAFile()" >Read text File</button>
         </nav>
     </header>
-    <div id="interactionWindow"></div>
-    <div id="codesWindow">
-        <div id="currentCode"></div>
-        <ul id="codeList"></ul>
-        <div id="codeInputDisplay" style="display:block;">
-            <input id="codeInput" type="text" placeholder="Code..">
-            <input id ="codeDescInput" type="text" placeholder="Desc..">
-            <Button id="codeSubmitBtn">Add Code</Button>
-
+    <div id="interactionContainer">
+        <div id="interactionWindow"></div>
+        <div id="codesWindow">
+            <h2>Codes Window</h2>
+            <ul id="codeList"></ul>
+            <div id="codeInputDisplay" style="display:block;">
+                <input id="codeInput" type="text" placeholder="Code..">
+                <input id ="codeDescInput" type="text" placeholder="Desc.." width="70%">
+                <Button id="codeSubmitBtn">Add Code</Button>
+                <button id="deleteCurrentCode">Delete code</button>
+            </div>
         </div>
     </div>
-    <div id="referenceWindow"></div>
-    
-    <div id="displayWindow"></div>
+    <div id="referencesContainer">
+        <h2>References</h2>
+        <div id="referenceWindow"></div>
+    </div> 
+    <div id="currentSelectionContainer">
+        <h2>Currently selected :</h2>
+        <strong>Code</strong>
+        <div id="currentCodeDisplay"></div>
+        <strong>Document Text</strong>
+        <div id="currentReferenceWindow"></div>
+
+    </div>   
+    <div id="documentContainer">
+        <h2>Document Window</h2>
+        <div id="displayWindow"></div>
+    </div>
     <footer>
         <p>Reff App by T.Mouna</p>
     </footer>
