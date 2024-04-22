@@ -7,6 +7,7 @@ const interactionWindow = document.getElementById("interactionWindow");
 const codesWindow = document.getElementById("codesWindow");
 const currentReference = document.getElementById("currentReferenceWindow");
 const referenceDisplayWindow = document.getElementById("referenceWindow");
+const currentSelectedReferenceEle  = document.getElementById("currentSelectedReferenceDisplay");
 
 const codeList = document.getElementById("codeList");
 // buttons
@@ -71,6 +72,10 @@ var fullData = {
     references: [reference],
     codes: [code]
 }
+const currentSelectedRef = {
+    codeValue: "",
+    markedText: ""
+};
 ///fullData.codes.push(code);
 fullData.codes.push(code2);
 
@@ -186,7 +191,25 @@ function saveData(){
     anc.click();
     console.log ("pretend saves look into hosts");
 } 
-
+function SetSelectedReference(index){
+    currentSelectedReferenceEle.innerHTML = "";
+    let text = "";
+    currentSelectedRef.codeValue = fullData.references[index].codeValue;
+    const currentmarkedText = {
+        anchorOffset : fullData.references[index].markedText.anchorOffset,
+        focusOffset : fullData.references[index].markedText.focusOffset,
+        text : fullData.references[index].markedText.text,
+        fileName : fullData.references[index].markedText.fileName
+    };
+    currentSelectedRef.markedText = currentmarkedText;
+    //console.log(fullData.references[index].codeValue,fullData.references[index].markedText.fileName);
+    text += currentSelectedRef.codeValue  + " : ";
+    text += currentSelectedRef.markedText.text +" : " ;
+    text +=  currentSelectedRef.markedText.fileName ;
+    currentSelectedReferenceEle.innerHTML = text;
+    displayCurrentReference();
+    
+}
 
 function displayReferences(){
     referenceDisplayWindow.innerHTML = "";
@@ -198,7 +221,7 @@ function displayReferences(){
             const newLi = document.createElement("li");
             newLi.innerHTML = 
             `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName}<br>`;
-            //newLi.addEventListener("click", () => deleteReference(x));
+            newLi.addEventListener("click", () => SetSelectedReference(x));
             referenceDisplayWindow.appendChild(newLi);  
         }
 
@@ -213,14 +236,13 @@ function displayCurrentReference(){
     currentReference.appendChild(newRefBtn);
 }
 function loadData(){
-    
     const fileChooser = document.createElement("input");
     fileChooser.type="file" ;
     fileChooser.id="input";
 
     fileChooser.onchange = function(){
         let file = this.files[0];
-        console.log(file);
+        //console.log(file);
         fetch(`${file.name}`)
             .then(response => response.text())
             .then(text => fullData = JSON.parse(text))
