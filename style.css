@@ -21,9 +21,12 @@ input{
 
 #interactionWindow {
     background-color: aquamarine;
+    
 }
 #codesWindow {
     background-color: rgb(215, 171, 255);
+    cursor: pointer;
+   
 }
 #displayWindow{
     background-color: rgb(228, 226, 226);
@@ -34,21 +37,27 @@ input{
 
 #currentReferenceWindow{
     background-color: rgb(243, 199, 199);
+    border: solid black 2px;
 }
 #currentSelectionContainer{
     background-color: rgb(107, 107, 250);
     display:block;
+    border: solid black 2px;
 
 }
 #currentCodeDisplay{
     background-color: rgb(136, 136, 247);
+    border: solid rgb(171, 247, 171) 5px;
 }
 #interactionContainer{
     display:block;
+   
+   
 }
 #documentContainer{
     background-color: rgb(180, 247, 247);
 }
 #referencesContainer{
      background-color: rgb(248, 159, 159);
+     margin:10px 0px;
 }

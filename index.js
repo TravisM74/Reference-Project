@@ -7,6 +7,7 @@ const interactionWindow = document.getElementById("interactionWindow");
 const codesWindow = document.getElementById("codesWindow");
 const currentReference = document.getElementById("currentReferenceWindow");
 const referenceDisplayWindow = document.getElementById("referenceWindow");
+
 const codeList = document.getElementById("codeList");
 // buttons
 const displayCodesBtn = document.getElementById("displayCodesBtn");
@@ -15,10 +16,14 @@ const displayReferencesBtn = document.getElementById("displayReferencesBtn");
 displayReferencesBtn.addEventListener("click", displayReferences);
 const readFileBtn = document.getElementById("readFileBtn").onclick = readAFile;
 
+const loadFileBtn = document.getElementById("loadFileBtn").onclick = loadData;
+
+
 const saveRefBtn = document.createElement("button");
 saveRefBtn.innerHTML = "Save Data";
 saveRefBtn.addEventListener('click', saveData);
 document.getElementById("navBar").appendChild(saveRefBtn);
+
 const newRefBtn = document.createElement("button");
 newRefBtn.innerHTML = "add new Reference";
 newRefBtn.addEventListener('click', saveReference);
@@ -27,6 +32,11 @@ newCodeBtn.addEventListener("click", addNewCode);
 const deleteCodeBtn = document.getElementById("deleteCurrentCode");
 deleteCodeBtn.addEventListener("click", deleteCurrentCode);
 
+//inputs
+const codeSearchEle = document.getElementById("codeSearchInputReferences");
+codeSearchEle.addEventListener("change",displayReferences);
+const descSearchEle = document.getElementById("descSearchInputReferences");
+descSearchEle.addEventListener("change",displayReferences);
 // testData
 const markedText ={
     anchorOffset: -1,
@@ -57,7 +67,7 @@ const reference = {
     markedText: markedText2
 }
 
-const fullData = {
+var fullData = {
     references: [reference],
     codes: [code]
 }
@@ -65,8 +75,12 @@ const fullData = {
 fullData.codes.push(code2);
 
 //startup
-displayCodes();
-displayReferences();
+Start();
+
+function Start(){
+    displayCodes();
+    displayReferences();
+}
 
 
 function displayCurrentCode(){
@@ -82,6 +96,8 @@ function updateCurrentCode(x){
     currentCode.codeDesc = fullData.codes[x].codeDesc;          //update the current selected code from the codelist on click
     displayCurrentCode();
 }
+
+
 function displayCodes(){
     displayCurrentCode();
     let list = ""
@@ -108,6 +124,8 @@ function deleteCurrentCode(){
         currentCode.codeValue = "";
         currentCode.codeDesc = "";
         displayCodes();
+    } else {
+        alert("No Code Currently selected.");
     }
 }
 function addNewCode(){
@@ -132,6 +150,8 @@ function addNewCode(){
         if (descFound) alert("Description Exists already");
         if (!codeFound && !descFound) fullData.codes.push(newCode);
   
+    } else {
+        alert("No code information entered \n\nFill in Code Id and Code Description");
     }
     displayCodes();
 
@@ -162,22 +182,25 @@ function saveData(){
     var file = new Blob([data],{type : "text"});
     var anc = document.createElement("a");
     anc.href = URL.createObjectURL(file);
-    anc.download = "saveData.txt";
-    //anc.click();
+    anc.download = "saveData.json";
+    anc.click();
     console.log ("pretend saves look into hosts");
-}    
+} 
+
+
 function displayReferences(){
     referenceDisplayWindow.innerHTML = "";
 
     for (let x in fullData.references) {
         //console.log(markedText.fileName)
-        // if (fullData.references[x].markedText.fileName == markedText.fileName){
+        if (fullData.references[x].codeValue.includes(codeSearchEle.value) 
+            && fullData.references[x].markedText.text.includes(descSearchEle.value)){
             const newLi = document.createElement("li");
             newLi.innerHTML = 
             `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName}<br>`;
             //newLi.addEventListener("click", () => deleteReference(x));
             referenceDisplayWindow.appendChild(newLi);  
-        // }
+        }
 
     }
     //console.log(fullData.references);
@@ -189,7 +212,25 @@ function displayCurrentReference(){
     //currentReference.appendChild(saveRefBtn);
     currentReference.appendChild(newRefBtn);
 }
+function loadData(){
+    
+    const fileChooser = document.createElement("input");
+    fileChooser.type="file" ;
+    fileChooser.id="input";
 
+    fileChooser.onchange = function(){
+        let file = this.files[0];
+        console.log(file);
+        fetch(`${file.name}`)
+            .then(response => response.text())
+            .then(text => fullData = JSON.parse(text))
+            .then(() => Start());     
+    }  
+
+    interactionWindow.innerHTML ="";
+    interactionWindow.appendChild(fileChooser);
+    
+}
 function readAFile(){
     //let file = "";
     interactionWindow.innerHTML = "";

@@ -8,12 +8,12 @@
 </head>
 <body>
     <header>
-
         <nav id="navBar">
             <h1>NavBar</h1>
             <button id="displayCodesBtn">List Codes</button>
             <button id="displayReferencesBtn">References</button>
             <button id="readFileBtn" onclick="readAFile()" >Read text File</button>
+            <button id="loadFileBtn" onclick="loadSavedData()" >Load Saved Data</button>
         </nav>
     </header>
     <div id="interactionContainer">
@@ -22,7 +22,9 @@
             <h2>Codes Window</h2>
             <ul id="codeList"></ul>
             <div id="codeInputDisplay" style="display:block;">
+                <label for="codeInput">Code Id</label>
                 <input id="codeInput" type="text" placeholder="Code..">
+                <label for="codeDescInput">Code Description</label>
                 <input id ="codeDescInput" type="text" placeholder="Desc.." width="70%">
                 <Button id="codeSubmitBtn">Add Code</Button>
                 <button id="deleteCurrentCode">Delete code</button>
@@ -31,6 +33,11 @@
     </div>
     <div id="referencesContainer">
         <h2>References</h2>
+        <div>Search filters<div>
+        <label for="codeSearchInputReferences">Code Id</label>
+        <input id="codeSearchInputReferences" placeholder="Code.." type="text"></input>
+        <label for="descSearchInputReferences">Reference text Description</label>
+        <input id="descSearchInputReferences" placeholder="Desc.." type="text"></input>
         <div id="referenceWindow"></div>
     </div> 
     <div id="currentSelectionContainer">
