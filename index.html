@@ -10,8 +10,10 @@
     <header>
         <nav id="navBar">
             <h1>NavBar</h1>
+            <!-- 
             <button id="displayCodesBtn">List Codes</button>
             <button id="displayReferencesBtn">References</button>
+            -->
             <button id="readFileBtn" onclick="readAFile()" >Read text File</button>
             <button id="loadFileBtn" onclick="loadSavedData()" >Load Saved Data</button>
         </nav>
@@ -31,6 +33,7 @@
             </div>
         </div>
     </div>
+   
     <div id="referencesContainer">
         <h2>References</h2>
         <div>Search filters<div>
@@ -40,13 +43,14 @@
         <input id="descSearchInputReferences" placeholder="Desc.." type="text"></input>
         <div id="referenceWindow"></div>
     </div> 
+    
     <div id="currentSelectionContainer">
         <h2>Currently selected :</h2>
-        <strong>Code</strong>
+        <strong>Selected Code</strong>
         <div id="currentCodeDisplay"></div>
-        <div><strong>Current selected reference</strong></div>
+        <div><strong>Selected reference</strong></div>
         <div id="currentSelectedReferenceDisplay"></div>
-        <strong>Document Text</strong>
+        <strong>Selected Document Text</strong>
         <div id="currentReferenceWindow"></div>
 
     </div>   

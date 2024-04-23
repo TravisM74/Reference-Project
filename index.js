@@ -8,17 +8,19 @@ const codesWindow = document.getElementById("codesWindow");
 const currentReference = document.getElementById("currentReferenceWindow");
 const referenceDisplayWindow = document.getElementById("referenceWindow");
 const currentSelectedReferenceEle  = document.getElementById("currentSelectedReferenceDisplay");
-
+currentSelectedReferenceEle.innerHTML ="No Reference Selected"
 const codeList = document.getElementById("codeList");
+
 // buttons
+/*
 const displayCodesBtn = document.getElementById("displayCodesBtn");
 displayCodesBtn.addEventListener("click", displayCodes);
 const displayReferencesBtn = document.getElementById("displayReferencesBtn");
 displayReferencesBtn.addEventListener("click", displayReferences);
+*/
+
 const readFileBtn = document.getElementById("readFileBtn").onclick = readAFile;
-
 const loadFileBtn = document.getElementById("loadFileBtn").onclick = loadData;
-
 
 const saveRefBtn = document.createElement("button");
 saveRefBtn.innerHTML = "Save Data";
@@ -28,6 +30,7 @@ document.getElementById("navBar").appendChild(saveRefBtn);
 const newRefBtn = document.createElement("button");
 newRefBtn.innerHTML = "add new Reference";
 newRefBtn.addEventListener('click', saveReference);
+
 const newCodeBtn = document.getElementById("codeSubmitBtn");
 newCodeBtn.addEventListener("click", addNewCode);
 const deleteCodeBtn = document.getElementById("deleteCurrentCode");
@@ -38,48 +41,35 @@ const codeSearchEle = document.getElementById("codeSearchInputReferences");
 codeSearchEle.addEventListener("change",displayReferences);
 const descSearchEle = document.getElementById("descSearchInputReferences");
 descSearchEle.addEventListener("change",displayReferences);
-// testData
+
+// Data-Structure
 const markedText ={
     anchorOffset: -1,
     focusOffset: -1,
     text: "",
     fileName: ""
 };
-const markedText2 ={
-    anchorOffset: -1,
-    focusOffset: -1,
-    text: "this is where the test dummy can be found .",
-    fileName: "document.txt"
-};
-const code = {
-    codeValue: "code1",
-    codeDesc: "a tests code"
-}
-const code2 ={
-    codeValue: "code2",
-    codeDesc: "another tests code"
-}
+
 const currentCode = {
     codeValue: "",
     codeDesc: ""
 }
 const reference = {
-    codeValue: code.codeValue,
-    markedText: markedText2
+    codeValue: "",
+    markedText: ""
 }
 
 var fullData = {
-    references: [reference],
-    codes: [code]
+    references: [],
+    codes: []
 }
 const currentSelectedRef = {
     codeValue: "",
     markedText: ""
 };
-///fullData.codes.push(code);
-fullData.codes.push(code2);
 
-//startup
+
+//Initialisation startup
 Start();
 
 function Start(){
@@ -113,8 +103,7 @@ function displayCodes(){
         newLi.addEventListener("click", () => updateCurrentCode(x));
         codeList.appendChild(newLi);
     }
-    //document.getElementById("codeInputDisplay").style="display:block;";
-    //console.log("display codes complete");
+    
 }  
 function deleteCurrentCode(){
     let indexToSplice = -1;
@@ -207,7 +196,7 @@ function SetSelectedReference(index){
     text += currentSelectedRef.markedText.text +" : " ;
     text +=  currentSelectedRef.markedText.fileName ;
     currentSelectedReferenceEle.innerHTML = text;
-    displayCurrentReference();
+   
     
 }
 

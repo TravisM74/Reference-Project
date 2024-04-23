@@ -14,50 +14,58 @@ input{
     cursor: pointer;
 }
 
-
 #navBar{
     background-color: aqua;
 }
 
 #interactionWindow {
-    background-color: aquamarine;
-    
+    background-color: aquamarine;  
 }
+
 #codesWindow {
     background-color: rgb(215, 171, 255);
     cursor: pointer;
-   
 }
-#displayWindow{
-    background-color: rgb(228, 226, 226);
-    margin:20px;
-    padding:20px;
-    border-radius: 10px;
+
+#referencesContainer{
+    background-color: rgb(248, 159, 159);
+    margin:10px 0px;
+}
+
+#currentSelectionContainer{
+    background-color: rgb(107, 107, 250);
+    margin: 20px 0px;
+    display:block;
+    border: solid black 2px;
+}
+
+#referenceWindow{
+    background-color: rgb(252, 127, 127);
+    margin:10px 0px;
 }
 
 #currentReferenceWindow{
-    background-color: rgb(243, 199, 199);
-    border: solid black 2px;
+    background-color: rgb(188, 250, 151);
+    border: solid black 2px;  
 }
-#currentSelectionContainer{
-    background-color: rgb(107, 107, 250);
-    display:block;
-    border: solid black 2px;
 
-}
 #currentCodeDisplay{
     background-color: rgb(136, 136, 247);
     border: solid rgb(171, 247, 171) 5px;
 }
-#interactionContainer{
-    display:block;
-   
-   
+#currentSelectedReferenceDisplay{
+    background-color: rgb(136, 136, 247);
+    border: solid rgb(171, 247, 171) 5px;
 }
+
 #documentContainer{
     background-color: rgb(180, 247, 247);
+    margin: 20px;
 }
-#referencesContainer{
-     background-color: rgb(248, 159, 159);
-     margin:10px 0px;
+
+#displayWindow{
+    background-color: rgb(228, 226, 226);
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
 }
