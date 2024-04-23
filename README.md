@@ -6,3 +6,4 @@ A referencing application to allow you to mark passages in text documents and ad
 <li>some assumptions will be the text files are not moved.</li>
 <li>eventually the saved information will be stored online.</li>
 </ul>
+<img src="refproj.png" width=400>
