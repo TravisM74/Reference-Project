@@ -147,7 +147,12 @@ function addNewCode(){
         } 
         if (codeFound) alert("Code Exists already");
         if (descFound) alert("Description Exists already");
-        if (!codeFound && !descFound) fullData.codes.push(newCode);
+        if (!codeFound && !descFound) {
+            fullData.codes.push(newCode);
+            currentCode.codeValue = newCode.codeValue;
+            currentCode.codeDesc =  newCode.codeDesc;
+            displayCurrentCode();
+        }
   
     } else {
         alert("No code information entered \n\nFill in Code Id and Code Description");
