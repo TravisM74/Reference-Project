@@ -33,7 +33,10 @@ newRefBtn.addEventListener('click', saveReference);
 
 const newCodeBtn = document.getElementById("codeSubmitBtn");
 newCodeBtn.addEventListener("click", addNewCode);
-const deleteCodeBtn = document.getElementById("deleteCurrentCode");
+
+const deleteCodeBtn = document.createElement("button");
+deleteCodeBtn.id ="deleteCurrentCode";
+deleteCodeBtn.innerHTML = "Del";
 deleteCodeBtn.addEventListener("click", deleteCurrentCode);
 
 //inputs
@@ -41,6 +44,11 @@ const codeSearchEle = document.getElementById("codeSearchInputReferences");
 codeSearchEle.addEventListener("change",displayReferences);
 const descSearchEle = document.getElementById("descSearchInputReferences");
 descSearchEle.addEventListener("change",displayReferences);
+const codeCodeSearchInput = document.getElementById("codecodeSearchInput");
+codeCodeSearchInput.addEventListener("change",displayCodes);
+const codeDescSearchInput = document.getElementById("codeDescSearchInput");
+codeDescSearchInput.addEventListener("change",displayCodes);
+
 
 // Data-Structure
 const markedText ={
@@ -88,6 +96,9 @@ function displayCurrentCode(){
     currentCode.codeValue == "" ? 
             currentCodeDisplay.innerHTML = `No current code Selected` 
             : currentCodeDisplay.innerHTML = `Current Code :${currentCode.codeValue} Description : ${currentCode.codeDesc}` ;
+    
+
+    if (currentCodeDisplay.innerHTML != `No current code Selected`) currentCodeDisplay.appendChild(deleteCodeBtn);
         
 }
 
@@ -100,31 +111,44 @@ function updateCurrentCode(x){
 
 function displayCodes(){
     displayCurrentCode();
-    let list = ""
-    codeList.innerHTML= list;
+
+    codeList.innerHTML= "";
     for (let x in fullData.codes) {
-        const newLi = document.createElement("li");
-        newLi.innerHTML = `${fullData.codes[x].codeValue}  : ${fullData.codes[x].codeDesc} `;
-        newLi.addEventListener("click", () => updateCurrentCode(x));
-        codeList.appendChild(newLi);
+        if (fullData.codes[x].codeValue.toUpperCase().includes(codeCodeSearchInput.value.toUpperCase()) && fullData.codes[x].codeDesc.toUpperCase().includes(codeDescSearchInput.value.toUpperCase())) {
+            const newLi = document.createElement("li");
+            newLi.innerHTML = `${fullData.codes[x].codeValue}  : ${fullData.codes[x].codeDesc} `;
+            newLi.addEventListener("click", () => updateCurrentCode(x));
+            codeList.appendChild(newLi);
+
+        }
     }
     
 }  
 function deleteCurrentCode(){
     let indexToSplice = -1;
-    for (let x in fullData.codes) {
-        if (currentCode.codeValue == fullData.codes[x].codeValue &&
-            currentCode.codeDesc == fullData.codes[x].codeDesc){
-                indexToSplice = x;
-            }
+    let codeInUse = false;
+    if (fullData.references.includes(currentCode.codeValue)) console.log("Found " + currentCode.codeValue+ " in data!");
+    for (let i in fullData.references){
+        //console.log(currentCode.codeValue + " : " + fullData.references[i].codeValue);
+        if(currentCode.codeValue == fullData.references[i].codeValue) codeInUse = true;
     }
-    if (indexToSplice >= 0) {
-        fullData.codes.splice(indexToSplice,1);
-        currentCode.codeValue = "";
-        currentCode.codeDesc = "";
-        displayCodes();
+    if (codeInUse){
+        alert("Code in Use Cannot be deleted");
     } else {
-        alert("No Code Currently selected.");
+        for (let x in fullData.codes) {
+            if (currentCode.codeValue == fullData.codes[x].codeValue &&
+                currentCode.codeDesc == fullData.codes[x].codeDesc){
+                    indexToSplice = x;
+                }
+        }
+        if (indexToSplice >= 0) {
+            fullData.codes.splice(indexToSplice,1);
+            currentCode.codeValue = "";
+            currentCode.codeDesc = "";
+            displayCodes();
+        } else {
+            alert("No Code Currently selected.");
+        }
     }
 }
 function addNewCode(){
@@ -204,7 +228,7 @@ function SetSelectedReference(index){
     //console.log(fullData.references[index].codeValue,fullData.references[index].markedText.fileName);
     
     const delBtn = document.createElement("button");
-    delBtn.innerHTML ="del";
+    delBtn.innerHTML ="Del";
     delBtn.onclick=(()=>removeReference(index));
     
     text += currentSelectedRef.codeValue  + " : ";
@@ -218,21 +242,20 @@ function SetSelectedReference(index){
 }
 
 function removeReference(index){
-    console.log("Entered Remove Reference");
+    //console.log("Entered Remove Reference");
     fullData.references.splice(index,1);
     displayReferences();
     currentSelectedReferenceEle.innerHTML = "Reference removed.";
     displayWindow.innerHTML = "";
-    console.log("Finished Remove Reference");
+    //console.log("Finished Remove Reference");
 }
 
 function displayReferences(){
     referenceDisplayWindow.innerHTML = "";
-
     for (let x in fullData.references) {
         //console.log(markedText.fileName)
-        if (fullData.references[x].codeValue.includes(codeSearchEle.value) 
-            && fullData.references[x].markedText.text.includes(descSearchEle.value)){
+        if (fullData.references[x].codeValue.toUpperCase().includes(codeSearchEle.value.toUpperCase()) 
+            && fullData.references[x].markedText.text.toUpperCase().includes(descSearchEle.value.toUpperCase())){
             const newLi = document.createElement("li");
             newLi.innerHTML = 
             `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName} <br>`;
@@ -252,6 +275,7 @@ function displayCurrentReference(){
     //currentReference.appendChild(saveRefBtn);
     currentReference.appendChild(newRefBtn);
 }
+
 function loadData(){
     const fileChooser = document.createElement("input");
     fileChooser.type="file" ;
@@ -267,11 +291,10 @@ function loadData(){
                 interactionWindow.innerHTML ="";    
             });     
     }  
-
     interactionWindow.innerHTML ="";
-    interactionWindow.appendChild(fileChooser);
-    
+    interactionWindow.appendChild(fileChooser);   
 }
+
 function readAFile(){
     //let file = "";
     interactionWindow.innerHTML = "";
@@ -306,7 +329,7 @@ function getMouseUp(e){
 }
 
 function highlight(index){
-    console.log(fullData.references[index].markedText.fileName +" : " + opendFile.fileName);
+    //console.log(fullData.references[index].markedText.fileName +" : " + opendFile.fileName);
     if (fullData.references[index].markedText.fileName == opendFile.fileName){
         //console.log("Changing hightlight text");
         //console.log(currentSelectedRef.markedText.text);
@@ -314,7 +337,7 @@ function highlight(index){
         //console.log(newText);
         displayWindow.innerHTML = newText;
     } else {
-        console.log("different textfile opened");
+        //console.log("different textfile opened");
         openReferenceFile(fullData.references[index].markedText.fileName, index);
     }
 
