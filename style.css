@@ -3,17 +3,17 @@ body{
    padding:0px;
    background-color: rgb(253, 253, 196);
 }
-button{
-    padding:10px 5px;
-    border-radius: 10px;
-    cursor: pointer;
-}
 input{
     padding:10px 5px;
     border-radius: 10px;
     cursor: pointer;
 }
 
+#standardButton{
+    padding:10px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
 #navBar{
     background-color: aqua;
 }
@@ -24,6 +24,8 @@ input{
 
 #codesWindow {
     background-color: rgb(215, 171, 255);
+}
+#codeList{
     cursor: pointer;
 }
 
@@ -42,6 +44,7 @@ input{
 #referenceWindow{
     background-color: rgb(252, 127, 127);
     margin:10px 0px;
+    cursor: pointer;
 }
 
 #currentReferenceWindow{

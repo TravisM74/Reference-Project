@@ -67,6 +67,11 @@ const currentSelectedRef = {
     codeValue: "",
     markedText: ""
 };
+const opendFile ={
+    fileName:"",
+    text: ""
+}
+
 
 
 //Initialisation startup
@@ -192,12 +197,28 @@ function SetSelectedReference(index){
     };
     currentSelectedRef.markedText = currentmarkedText;
     //console.log(fullData.references[index].codeValue,fullData.references[index].markedText.fileName);
+    
+    const delBtn = document.createElement("button");
+    delBtn.innerHTML ="del";
+    delBtn.onclick=(()=>removeReference(index));
+    
     text += currentSelectedRef.codeValue  + " : ";
     text += currentSelectedRef.markedText.text +" : " ;
-    text +=  currentSelectedRef.markedText.fileName ;
-    currentSelectedReferenceEle.innerHTML = text;
-   
+    text +=  currentSelectedRef.markedText.fileName + "  " ;
+    currentSelectedReferenceEle.innerHTML = text ;
+    currentSelectedReferenceEle.appendChild(delBtn);
+    highlight(index);
+
     
+}
+
+function removeReference(index){
+    console.log("Entered Remove Reference");
+    fullData.references.splice(index,1);
+    displayReferences();
+    currentSelectedReferenceEle.innerHTML = "Reference removed.";
+    displayWindow.innerHTML = "";
+    console.log("Finished Remove Reference");
 }
 
 function displayReferences(){
@@ -209,7 +230,7 @@ function displayReferences(){
             && fullData.references[x].markedText.text.includes(descSearchEle.value)){
             const newLi = document.createElement("li");
             newLi.innerHTML = 
-            `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName}<br>`;
+            `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName} <br>`;
             newLi.addEventListener("click", () => SetSelectedReference(x));
             referenceDisplayWindow.appendChild(newLi);  
         }
@@ -217,6 +238,8 @@ function displayReferences(){
     }
     //console.log(fullData.references);
 }
+
+
 function displayCurrentReference(){
     currentReference.innerHTML =    `<p>File: ${markedText.fileName} </p>
                                     <p>Text: ${markedText.text} </p>
@@ -235,7 +258,9 @@ function loadData(){
         fetch(`${file.name}`)
             .then(response => response.text())
             .then(text => fullData = JSON.parse(text))
-            .then(() => Start());     
+            .then(() => {Start();
+                interactionWindow.innerHTML ="";    
+            });     
     }  
 
     interactionWindow.innerHTML ="";
@@ -251,10 +276,14 @@ function readAFile(){
         fileChooser.name="files[]"
         fileChooser.onchange = function(){
             let file = this.files[0];
-            markedText.fileName = file.name                      // set markedText filename
+            markedText.fileName = file.name;   // set markedText filename
+            opendFile.fileName = file.name;                    
             fetch(`./data/${file.name}`)
                 .then (response => response.text())
-                .then(text=> displayWindow.innerHTML=text);     
+                .then(text=> {displayWindow.innerHTML=text;
+                                opendFile.text = text;
+                                interactionWindow.innerHTML ="";    
+                                });     
         }
         interactionWindow.appendChild(fileChooser);
         displayReferences();
@@ -269,6 +298,32 @@ function getMouseUp(e){
     markedText.text = window.getSelection().toString(); 
     //console.log(markedText);
     displayCurrentReference();
+}
+
+function highlight(index){
+    console.log(fullData.references[index].markedText.fileName +" : " + opendFile.fileName);
+    if (fullData.references[index].markedText.fileName == opendFile.fileName){
+        //console.log("Changing hightlight text");
+        //console.log(currentSelectedRef.markedText.text);
+        const newText = opendFile.text.replace(currentSelectedRef.markedText.text,`*** <strong>${currentSelectedRef.markedText.text}</strong>***`);
+        //console.log(newText);
+        displayWindow.innerHTML = newText;
+    } else {
+        console.log("different textfile opened");
+        openReferenceFile(fullData.references[index].markedText.fileName, index);
+    }
+
+    function openReferenceFile(file, index){
+        fetch(`./data/${file}`)
+        .then (response => response.text())
+        .then(text=> {displayWindow.innerHTML=text;
+                        opendFile.text = text;
+                        opendFile.fileName = file;
+                        })
+        .then(() => highlight(index));   
+    }
+
+ 
 }
 
 
