@@ -10,14 +10,11 @@ const referenceDisplayWindow = document.getElementById("referenceWindow");
 const currentSelectedReferenceEle  = document.getElementById("currentSelectedReferenceDisplay");
 currentSelectedReferenceEle.innerHTML ="No Reference Selected"
 const codeList = document.getElementById("codeList");
+const codeSearchWindow = document.getElementById("codeSearchWindow");
+const refDisplayWindow = document.getElementById("referencesDisplayWindow");
+
 
 // buttons
-/*
-const displayCodesBtn = document.getElementById("displayCodesBtn");
-displayCodesBtn.addEventListener("click", displayCodes);
-const displayReferencesBtn = document.getElementById("displayReferencesBtn");
-displayReferencesBtn.addEventListener("click", displayReferences);
-*/
 
 const readFileBtn = document.getElementById("readFileBtn").onclick = readAFile;
 const loadFileBtn = document.getElementById("loadFileBtn").onclick = loadData;
@@ -81,15 +78,54 @@ const opendFile ={
     text: ""
 }
 
+const displayWindows = {
+    codeDisWin: true,
+    refDisWin: true
+}
 
 
 //Initialisation startup
 Start();
 
+// setting up open close windows buttons
+const toggleCodesWindowBtn = document.createElement("button");
+toggleCodesWindowBtn.onclick=toggleCodesWindow;
+toggleCodesWindowBtn.innerHTML = "🔼";
+document.getElementById("codesWindow").append(toggleCodesWindowBtn);
+
+const toggleRefWindowBtn = document.createElement("button");
+toggleRefWindowBtn.onclick=toggleRefWindow;
+toggleRefWindowBtn.innerHTML = "🔼";
+document.getElementById("referencesContainer").append(toggleRefWindowBtn);
+
 function Start(){
     displayCodes();
     displayReferences();
 }
+
+function toggleCodesWindow(){
+    displayWindows.codeDisWin = !displayWindows.codeDisWin;
+    //console.log(displayWindows.codeDisWin);
+    if (displayWindows.codeDisWin) {
+        codeSearchWindow.style="display:block";
+        toggleCodesWindowBtn.innerHTML = "🔼";
+    } else {
+        codeSearchWindow.style="display:none";
+        toggleCodesWindowBtn.innerHTML = "🔽";
+    }   
+}
+function toggleRefWindow(){
+    displayWindows.refDisWin = !displayWindows.refDisWin;
+    console.log(displayWindows.refDisWin);
+    if (displayWindows.refDisWin) {
+        refDisplayWindow.style="display:block";
+        toggleRefWindowBtn.innerHTML = "🔼";
+    } else {
+        refDisplayWindow.style="display:none";
+        toggleRefWindowBtn.innerHTML = "🔽";
+    }   
+}
+
 
 
 function displayCurrentCode(){
@@ -248,20 +284,20 @@ function removeReference(index){
 
 function displayReferences(){
     referenceDisplayWindow.innerHTML = "";
-    for (let x in fullData.references) {
-        //console.log(markedText.fileName)
-        if (fullData.references[x].codeValue.toUpperCase().includes(codeSearchEle.value.toUpperCase()) 
+    
+        for (let x in fullData.references) {
+            //console.log(markedText.fileName)
+            if (fullData.references[x].codeValue.toUpperCase().includes(codeSearchEle.value.toUpperCase()) 
             && fullData.references[x].markedText.text.toUpperCase().includes(descSearchEle.value.toUpperCase())){
-            const newLi = document.createElement("li");
-            newLi.innerHTML = 
-            `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName} <br>`;
-            newLi.addEventListener("click", () => SetSelectedReference(x));
-            referenceDisplayWindow.appendChild(newLi);  
-        }
-    }
+                const newLi = document.createElement("li");
+                newLi.innerHTML = 
+                `${fullData.references[x].codeValue}  : ${fullData.references[x].markedText.text} : ${fullData.references[x].markedText.fileName} <br>`;
+                newLi.addEventListener("click", () => SetSelectedReference(x));
+                referenceDisplayWindow.appendChild(newLi);  
+            }
+        }  
     //console.log(fullData.references);
 }
-
 
 function displayCurrentReference(){
     currentReference.innerHTML =    `<p>File: ${markedText.fileName} </p>
@@ -328,7 +364,7 @@ function highlight(index){
     if (fullData.references[index].markedText.fileName == opendFile.fileName){
         //console.log("Changing hightlight text");
         //console.log(currentSelectedRef.markedText.text);
-        const newText = opendFile.text.replace(currentSelectedRef.markedText.text,`*** <strong>${currentSelectedRef.markedText.text}</strong>***`);
+        const newText = opendFile.text.replace(currentSelectedRef.markedText.text,` <span class="highlight">${currentSelectedRef.markedText.text}</span>`);
         //console.log(newText);
         displayWindow.innerHTML = newText;
     } else {
