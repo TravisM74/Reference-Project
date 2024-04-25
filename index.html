@@ -8,64 +8,73 @@
 </head>
 <body>
     <header>
-        <nav id="navBar">
-            <h1>NavBar</h1>
-            <!-- 
-            <button id="displayCodesBtn">List Codes</button>
-            <button id="displayReferencesBtn">References</button>
-            -->
-            <button id="readFileBtn" onclick="readAFile()" >Read text File</button>
-            <button id="loadFileBtn" onclick="loadSavedData()" >Load Saved Data</button>
-        </nav>
+        <h1>Reference Application</h1>
     </header>
-    <div id="interactionContainer">
+    <nav class="container" id="navBar">
+        <h2>NavBar</h2>
+        <button id="readFileBtn" onclick="readAFile()" >Read text File</button>
+        <button id="loadFileBtn" onclick="loadSavedData()" >Load Saved Data</button>
+    </nav>
+
+    <div class="container" id="interactionContainer">
         <div id="interactionWindow"></div>
-        <div id="codesWindow">
+    </div>
+    
+    <div class="container" >
+        <div  id="codesWindow">
             <h2>Codes Window</h2>
             <div id="codeSearchWindow">
-                <div class="sectionHeader">Search filters :
-                <div>
-                <label for="codecodeSearchInput">Search Id</label>
-                <input id="codecodeSearchInput" placeholder="Code.">
-                <label for="codeDescSearchInput">Search Description</label>
-                <input id="codeDescSearchInput" placeholder="Desc.">
-            </div>
-            <ul id="codeList"></ul>
-            <div id="codeInputDisplay" style="display:block;">
-                <div class="header">Add new Code :</div>
-                <label for="codeInput">Code Id</label>
-                <input id="codeInput" type="text" placeholder="Code..">
-                <label for="codeDescInput">Code Description</label>
-                <input id ="codeDescInput" type="text" placeholder="Desc.." width="70%">
-                <Button id="codeSubmitBtn">Add Code</Button>
+                <div class="sectionHeader">Search filters :<div>
+                    <label for="codecodeSearchInput">Search Id</label>
+                    <input id="codecodeSearchInput" placeholder="Code.">
+                    <label for="codeDescSearchInput">Search Description</label>
+                    <input id="codeDescSearchInput" placeholder="Desc.">
+                </div>
+                <ul id="codeList"></ul>
+                <div id="codeInputDisplay">
+                    <div class="sectionHeader">Add new Code :</div>
+                    <label for="codeInput">Code Id</label>
+                    <input id="codeInput" type="text" placeholder="Code..">
+                    <label for="codeDescInput">Code Description</label>
+                    <input id ="codeDescInput" type="text" placeholder="Desc.." >
+                    <Button id="codeSubmitBtn">Add Code</Button>
+                </div>
             </div>
         </div>
     </div>
-    
-    <div id="referencesContainer">
-        <h2>References</h2>
-        <div class="header">Search filters<div>
-            <label for="codeSearchInputReferences">Code Id</label>
-            <input id="codeSearchInputReferences" placeholder="Code.." type="text"></input>
-            <label for="descSearchInputReferences">Reference text Description</label>
-            <input id="descSearchInputReferences" placeholder="Desc.." type="text"></input>
-            <div id="referenceWindow"></div>
-        </div> 
         
-        <div id="currentSelectionContainer">
-            <h2>Currently selected :</h2>
-            <strong>Selected Code</strong>
-            <div id="currentCodeDisplay"></div>
+
+    <div class="container">
+        <div  id="referencesContainer">
+            <h2>References</h2>
+            <div class="sectionHeader">Search filters<div>
+                <label for="codeSearchInputReferences">Code Id</label>
+                <input id="codeSearchInputReferences" placeholder="Code.." type="text"></input>
+                <label for="descSearchInputReferences">Reference text Description</label>
+                <input id="descSearchInputReferences" placeholder="Desc.." type="text"></input>
+                <div id="referenceWindow"></div>
+            </div>  
+        </div>  
+        
+    </div>
+        
+    <div class="container" id="currentSelectionContainer">
+        <h2>Currently selected :</h2>
+        <strong>Selected Code</strong>
+        <div id="currentCodeDisplay"></div>
         <div><strong>Selected reference</strong></div>
         <div id="currentSelectedReferenceDisplay"></div>
-        <strong>Selected Document Text</strong>
-        <div id="currentReferenceWindow"></div>
+        <div id="selectedDocumentContainer">
+            <strong>Selected Document Text</strong>
+            <div id="currentReferenceWindow"></div>
+        </div>
+    </div>
 
-    </div>   
-    <div id="documentContainer">
+    <div class="container" id="documentContainer">
         <h2>Document Window</h2>
         <div id="displayWindow"></div>
     </div>
+
     <footer>
         <p>Reff App by T.Mouna</p>
     </footer>

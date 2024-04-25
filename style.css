@@ -9,70 +9,106 @@ input{
     cursor: pointer;
 }
 
-.sectionHeader{
-   
+h2{
+    margin:10px 0px;
 }
+.container{
+   margin: 10px  0px;
+   border-radius: 5px;
 
-#standardButton{
+}
+button{
+    background-color: rgb(253, 253, 253);
     padding:10px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: rgb(189, 189, 250);
+}
+button:active{
+    background-color: blueviolet;
+}
+.delButton{
+    padding:5px 5px;
     border-radius: 10px;
     cursor: pointer;
 }
 #navBar{
     background-color: aqua;
+    padding: 10px;
 }
 
 #interactionWindow {
     background-color: aquamarine;  
+    border-radius: 5px;;
 }
 
 #codesWindow {
     background-color: rgb(215, 171, 255);
+    border-radius: 5px;
+    padding: 10px;
 }
+
 #codeList{
     cursor: pointer;
+    background-color: rgb(195, 136, 250);
+    border-radius: 5px;
+    margin:10px;
 }
 
 #referencesContainer{
     background-color: rgb(248, 159, 159);
-    margin:10px 0px;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 #currentSelectionContainer{
     background-color: rgb(107, 107, 250);
-    margin: 20px 0px;
-    display:block;
     border: solid black 2px;
+    padding: 10px;
 }
 
 #referenceWindow{
     background-color: rgb(252, 127, 127);
-    margin:10px 0px;
     cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
 }
 
 #currentReferenceWindow{
-    background-color: rgb(188, 250, 151);
+    padding: 10px;
     border: solid black 2px;  
 }
 
 #currentCodeDisplay{
     background-color: rgb(136, 136, 247);
-    border: solid rgb(171, 247, 171) 5px;
+    border: solid rgb(47, 226, 47) 2px;
+    padding: 5px;
+    margin: 3px 0px;
+    border-radius: 5px;
+    
 }
 #currentSelectedReferenceDisplay{
     background-color: rgb(136, 136, 247);
-    border: solid rgb(171, 247, 171) 5px;
+    border: solid rgb(47, 226, 47) 2px;
+    padding: 5px;
+    margin: 3px 0px;
+    border-radius: 5px;
 }
-
+#selectedDocumentContainer{
+    background-color: rgb(188, 250, 151);
+}
 #documentContainer{
     background-color: rgb(180, 247, 247);
-    margin: 20px;
+    margin: 20px 0px;
+    border-radius: 5px;
+    padding:10px;
 }
 
 #displayWindow{
     background-color: rgb(228, 226, 226);
-    margin: 20px;
+    margin: 20px 10px;
     padding: 20px;
     border-radius: 10px;
 }

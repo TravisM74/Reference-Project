@@ -36,7 +36,8 @@ newCodeBtn.addEventListener("click", addNewCode);
 
 const deleteCodeBtn = document.createElement("button");
 deleteCodeBtn.id ="deleteCurrentCode";
-deleteCodeBtn.innerHTML = "Del";
+deleteCodeBtn.innerHTML = "❌";
+deleteCodeBtn.className = "delButton";
 deleteCodeBtn.addEventListener("click", deleteCurrentCode);
 
 //inputs
@@ -96,8 +97,6 @@ function displayCurrentCode(){
     currentCode.codeValue == "" ? 
             currentCodeDisplay.innerHTML = `No current code Selected` 
             : currentCodeDisplay.innerHTML = `Current Code :${currentCode.codeValue} Description : ${currentCode.codeDesc}` ;
-    
-
     if (currentCodeDisplay.innerHTML != `No current code Selected`) currentCodeDisplay.appendChild(deleteCodeBtn);
         
 }
@@ -111,7 +110,6 @@ function updateCurrentCode(x){
 
 function displayCodes(){
     displayCurrentCode();
-
     codeList.innerHTML= "";
     for (let x in fullData.codes) {
         if (fullData.codes[x].codeValue.toUpperCase().includes(codeCodeSearchInput.value.toUpperCase()) && fullData.codes[x].codeDesc.toUpperCase().includes(codeDescSearchInput.value.toUpperCase())) {
@@ -119,7 +117,6 @@ function displayCodes(){
             newLi.innerHTML = `${fullData.codes[x].codeValue}  : ${fullData.codes[x].codeDesc} `;
             newLi.addEventListener("click", () => updateCurrentCode(x));
             codeList.appendChild(newLi);
-
         }
     }
     
@@ -127,7 +124,6 @@ function displayCodes(){
 function deleteCurrentCode(){
     let indexToSplice = -1;
     let codeInUse = false;
-    if (fullData.references.includes(currentCode.codeValue)) console.log("Found " + currentCode.codeValue+ " in data!");
     for (let i in fullData.references){
         //console.log(currentCode.codeValue + " : " + fullData.references[i].codeValue);
         if(currentCode.codeValue == fullData.references[i].codeValue) codeInUse = true;
@@ -177,7 +173,6 @@ function addNewCode(){
             currentCode.codeDesc =  newCode.codeDesc;
             displayCurrentCode();
         }
-  
     } else {
         alert("No code information entered \n\nFill in Code Id and Code Description");
     }
@@ -192,7 +187,7 @@ function saveReference(){
             anchorOffset: markedText.anchorOffset,
             focusOffset: markedText.focusOffset,
             text: markedText.text,
-            fileName: markedText.fileName
+            fileName: opendFile.fileName
         }
         const newRef = {    codeValue: currentCode.codeValue,
                             markedText: newMarkedText 
@@ -228,7 +223,8 @@ function SetSelectedReference(index){
     //console.log(fullData.references[index].codeValue,fullData.references[index].markedText.fileName);
     
     const delBtn = document.createElement("button");
-    delBtn.innerHTML ="Del";
+    delBtn.innerHTML = "❌";
+    delBtn.className = "delButton";
     delBtn.onclick=(()=>removeReference(index));
     
     text += currentSelectedRef.codeValue  + " : ";
@@ -262,7 +258,6 @@ function displayReferences(){
             newLi.addEventListener("click", () => SetSelectedReference(x));
             referenceDisplayWindow.appendChild(newLi);  
         }
-
     }
     //console.log(fullData.references);
 }
@@ -280,7 +275,6 @@ function loadData(){
     const fileChooser = document.createElement("input");
     fileChooser.type="file" ;
     fileChooser.id="input";
-
     fileChooser.onchange = function(){
         let file = this.files[0];
         //console.log(file);
@@ -291,13 +285,13 @@ function loadData(){
                 interactionWindow.innerHTML ="";    
             });     
     }  
-    interactionWindow.innerHTML ="";
+    interactionWindow.innerHTML ="Choose a Save file (saveData.json)";
     interactionWindow.appendChild(fileChooser);   
 }
 
 function readAFile(){
     //let file = "";
-    interactionWindow.innerHTML = "";
+    interactionWindow.innerHTML = "Choose a Text file (.txt)";
     const fileChooser = document.createElement("input");
         fileChooser.type="file" 
         fileChooser.id="files" 
@@ -305,7 +299,7 @@ function readAFile(){
         fileChooser.onchange = function(){
             let file = this.files[0];
             markedText.fileName = file.name;   // set markedText filename
-            opendFile.fileName = file.name;                    
+            opendFile.fileName = file.name;                   
             fetch(`./data/${file.name}`)
                 .then (response => response.text())
                 .then(text=> {displayWindow.innerHTML=text;
@@ -324,6 +318,7 @@ function getMouseUp(e){
     markedText.anchorOffset = window.getSelection().anchorOffset;
     markedText.focusOffset = window.getSelection().focusOffset;
     markedText.text = window.getSelection().toString(); 
+    markedText.fileName = opendFile.fileName;
     //console.log(markedText);
     displayCurrentReference();
 }
