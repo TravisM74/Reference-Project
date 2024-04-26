@@ -13,13 +13,18 @@ h1 {
     font-size: 5vw;
     text-align: center;
 }
-h2{
+h2{ 
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 2.5vw;
     margin:10px 0px;
     text-shadow: 1px 1px 4px blue;
 }
 input, label, div{
     font-size: 1vw;
+}
+
+li{
+    margin: 2px;
 }
 .container{
    margin: 10px  0px;
