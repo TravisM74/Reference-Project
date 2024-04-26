@@ -103,6 +103,7 @@ function Start(){
     displayReferences();
 }
 
+// close/open the Codes window
 function toggleCodesWindow(){
     displayWindows.codeDisWin = !displayWindows.codeDisWin;
     //console.log(displayWindows.codeDisWin);
@@ -114,6 +115,8 @@ function toggleCodesWindow(){
         toggleCodesWindowBtn.innerHTML = "🔽";
     }   
 }
+
+// close/open the references window
 function toggleRefWindow(){
     displayWindows.refDisWin = !displayWindows.refDisWin;
     console.log(displayWindows.refDisWin);
@@ -127,7 +130,7 @@ function toggleRefWindow(){
 }
 
 
-
+// displays the currently selected code in the selected code window
 function displayCurrentCode(){
     const currentCodeDisplay = document.getElementById("currentCodeDisplay");
     currentCode.codeValue == "" ? 
@@ -136,14 +139,19 @@ function displayCurrentCode(){
     if (currentCodeDisplay.innerHTML != `No current code Selected`) currentCodeDisplay.appendChild(deleteCodeBtn);
         
 }
-
+// set the current code variable to the freshly selected code
 function updateCurrentCode(x){
     currentCode.codeValue = fullData.codes[x].codeValue;        //update the current selected code from the codelist on click
     currentCode.codeDesc = fullData.codes[x].codeDesc;          //update the current selected code from the codelist on click
     displayCurrentCode();
 }
 
-
+/* 
+    list the codes in the code window filtered by the code and desc input fields for searching
+        searching case comparrison to both uppercase
+        Eventlistener added to function updateCurrent code
+        valid codes appended as li to the ul codeDisplay window
+*/
 function displayCodes(){
     displayCurrentCode();
     codeList.innerHTML= "";
@@ -157,6 +165,14 @@ function displayCodes(){
     }
     
 }  
+
+/*
+    fullData.references is searched through to see if code is in use in any references
+    Error reported if in use
+
+    codes array in the fullData object searched then throught for matching code, code is then removed
+    removed via splice method
+*/
 function deleteCurrentCode(){
     let indexToSplice = -1;
     let codeInUse = false;
@@ -183,6 +199,14 @@ function deleteCurrentCode(){
         }
     }
 }
+
+/*
+    new code data taken from inputs
+        tested to make sure both fields are not blank
+        fullData.codes is then searched to see if any data matches other codes
+        alerts to error if code exists otherwise creates code
+    new code set to current code.
+*/
 function addNewCode(){
     const codeInput = document.getElementById("codeInput").value;
     const codeDesc = document.getElementById("codeDescInput").value;
@@ -216,6 +240,12 @@ function addNewCode(){
 
 }
 
+/*
+    current code and marked code tested if empty
+    values set for new marked text from marked text
+    new reference created with code and newmarked Text
+    new reference added to fullData.
+*/
 function saveReference(){
     // console.log("Currently not validated!!!");
     if (currentCode.codeValue !== "" && markedText.text !== ""){
@@ -235,6 +265,11 @@ function saveReference(){
     displayReferences();
 }
 
+/*
+    a text blob is created from fullData
+    a link is created for the textblob
+    link is then selfclicked to produce a downloadfile.
+*/
 function saveData(){
     console.log('save started');
     const data = JSON.stringify(fullData);
@@ -245,6 +280,16 @@ function saveData(){
     anc.click();
     console.log ("pretend saves look into hosts");
 } 
+
+/*
+    creating the currently selected Reference display
+    the index i used to select reference the relevant recorde
+    currrentmarkedText object loaded with data from fullData.references
+    delete button created to to function removeReference passing index
+    text string made from currentmarkedText data and set to currentSelectedReferenceEle element
+    delete button appeneded 
+
+*/
 function SetSelectedReference(index){
     currentSelectedReferenceEle.innerHTML = "";
     let text = "";
@@ -273,6 +318,10 @@ function SetSelectedReference(index){
     
 }
 
+/*
+    removeReverence recieves an index from a listed reference
+    splices Reference from fullData.references
+*/
 function removeReference(index){
     //console.log("Entered Remove Reference");
     fullData.references.splice(index,1);
@@ -282,9 +331,14 @@ function removeReference(index){
     //console.log("Finished Remove Reference");
 }
 
+/*
+    Displays a list of references from fullData.references
+    Filters references from inputs compaired to uppercase from fullData.references
+    adds an on click event to set SelectedReference
+    adds the valid referenced as li to the References display window of ul
+*/
 function displayReferences(){
     referenceDisplayWindow.innerHTML = "";
-    
         for (let x in fullData.references) {
             //console.log(markedText.fileName)
             if (fullData.references[x].codeValue.toUpperCase().includes(codeSearchEle.value.toUpperCase()) 
@@ -299,6 +353,11 @@ function displayReferences(){
     //console.log(fullData.references);
 }
 
+/*
+    the current reference is the selected text
+    set the element currentReference to the MarkedTest variables
+    adds a button to add the completed reference.
+*/
 function displayCurrentReference(){
     currentReference.innerHTML =    `<p>File: ${markedText.fileName} </p>
                                     <p>Text: ${markedText.text} </p>
@@ -307,6 +366,11 @@ function displayCurrentReference(){
     currentReference.appendChild(newRefBtn);
 }
 
+/*
+    creates a fileselector to select the saveData.json file
+    file needs to be located in the working directory
+    parses the data from the file into the fullData object
+*/
 function loadData(){
     const fileChooser = document.createElement("input");
     fileChooser.type="file" ;
@@ -325,6 +389,12 @@ function loadData(){
     interactionWindow.appendChild(fileChooser);   
 }
 
+/*
+    creates a file selector to select a text file 
+    must be from the Data folder and .txt
+    set the name and data of object opendFile.fileName and .text
+    then refreshes the references displayed
+*/
 function readAFile(){
     //let file = "";
     interactionWindow.innerHTML = "Choose a Text file (.txt)";
@@ -348,6 +418,11 @@ function readAFile(){
     //console.log('filename :'+file.name);
 }
 
+/*
+    getmouseup called when the mouse button is released in the document window
+    set the relevant data points of the event to the markedText object
+    refreshes the displayCurrentReference 
+*/
 function getMouseUp(e){
     //console.log(e);
     //console.log(window.getSelection());
@@ -359,6 +434,11 @@ function getMouseUp(e){
     displayCurrentReference();
 }
 
+/*
+    check to see if the current opend file is the same as the referencefile using the referance index
+    opens the correct file if not using openReferanceFile passing the name and the index of the reference.
+    replaces the matching text in the file to include a <span> with a highlicgh css class
+*/
 function highlight(index){
     //console.log(fullData.references[index].markedText.fileName +" : " + opendFile.fileName);
     if (fullData.references[index].markedText.fileName == opendFile.fileName){
@@ -372,6 +452,12 @@ function highlight(index){
         openReferenceFile(fullData.references[index].markedText.fileName, index);
     }
 
+    /*
+        takes a file name and reference index
+        opens a file in the datafolder witht he passed name
+        sets the opendFile object to the new data
+        calls the highlight function and passes it the index of the reference
+    */
     function openReferenceFile(file, index){
         fetch(`./data/${file}`)
         .then (response => response.text())
