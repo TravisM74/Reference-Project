@@ -67,7 +67,7 @@ const reference = {
 
 var fullData = {
     references: [],
-    codes: []
+    codes: [],
 }
 const currentSelectedRef = {
     codeValue: "",
@@ -84,7 +84,9 @@ const displayWindows = {
 }
 
 
-//Initialisation startup
+
+
+//Initialisation startup / refresh everything
 Start();
 
 // setting up open close windows buttons
@@ -98,15 +100,21 @@ toggleRefWindowBtn.onclick=toggleRefWindow;
 toggleRefWindowBtn.innerHTML = "🔼";
 document.getElementById("referencesContainer").append(toggleRefWindowBtn);
 
+// refreshes all window elements
 function Start(){
     displayCodes();
     displayReferences();
+    
 }
 
 // close/open the Codes window
 function toggleCodesWindow(){
     displayWindows.codeDisWin = !displayWindows.codeDisWin;
     //console.log(displayWindows.codeDisWin);
+    setCodWindow();
+}
+
+function setCodWindow(){
     if (displayWindows.codeDisWin) {
         codeSearchWindow.style="display:block";
         toggleCodesWindowBtn.innerHTML = "🔼";
@@ -119,7 +127,10 @@ function toggleCodesWindow(){
 // close/open the references window
 function toggleRefWindow(){
     displayWindows.refDisWin = !displayWindows.refDisWin;
-    console.log(displayWindows.refDisWin);
+    // console.log(displayWindows.refDisWin);
+    setRefWindow()
+}
+function setRefWindow(){
     if (displayWindows.refDisWin) {
         refDisplayWindow.style="display:block";
         toggleRefWindowBtn.innerHTML = "🔼";
@@ -128,7 +139,10 @@ function toggleRefWindow(){
         toggleRefWindowBtn.innerHTML = "🔽";
     }   
 }
-
+ function setWindows(){
+    setRefWindow();
+    setCodWindow();
+ }
 
 // displays the currently selected code in the selected code window
 function displayCurrentCode(){
@@ -271,6 +285,7 @@ function saveReference(){
     link is then selfclicked to produce a downloadfile.
 */
 function saveData(){
+    /*
     console.log('save started');
     const data = JSON.stringify(fullData);
     var file = new Blob([data],{type : "text"});
@@ -279,6 +294,9 @@ function saveData(){
     anc.download = "saveData.json";
     anc.click();
     console.log ("pretend saves look into hosts");
+    */
+    localStorage.setItem("fullData", JSON.stringify(fullData));
+    localStorage.setItem("displayWindows", JSON.stringify(displayWindows));
 } 
 
 /*
@@ -372,6 +390,7 @@ function displayCurrentReference(){
     parses the data from the file into the fullData object
 */
 function loadData(){
+    /*
     const fileChooser = document.createElement("input");
     fileChooser.type="file" ;
     fileChooser.id="input";
@@ -387,6 +406,26 @@ function loadData(){
     }  
     interactionWindow.innerHTML ="Choose a Save file (saveData.json)";
     interactionWindow.appendChild(fileChooser);   
+    */
+   
+    const fullDataObject = localStorage.getItem("fullData");
+    if (!fullDataObject) {
+        console.log("Error no data previously saved.");
+        
+    } else {
+       fullData = JSON.parse(fullDataObject);
+    }
+    const winStr = localStorage.getItem("displayWindows");
+    if (!winStr) {
+        displayWindows.codeDisWin = true;
+        displayWindows.refDisWin = true;
+    } else {
+        const displayObj = JSON.parse(winStr);
+        displayWindows.codeDisWin = displayObj.codeDisWin;
+        displayWindows.refDisWin = displayObj.refDisWin;
+    }
+    Start();
+    setWindows();
 }
 
 /*
